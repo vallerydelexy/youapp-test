@@ -1,14 +1,9 @@
 import 'dart:convert';
-
 import 'package:dio/dio.dart';
-
-
-import '../../utils/preferences.dart';
-import '../../views/routes.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class BaseApi {
   late Dio dio;
-
   BaseApi() {
     dio = Dio(
       BaseOptions(
@@ -28,91 +23,75 @@ class BaseApi {
       ));
   }
 
+  Future<String> authToken() async{
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString('accessToken') ?? '';
+  }
 
   ErrorApi errorHandler(DioException error) {
-    // Note: DioException is now DioException
+    String errorMessage = 'An unknown error occurred';
+    int? errorCode;
+
     if (error.type == DioExceptionType.connectionTimeout) {
-      return ErrorApi.fromJson({'message': 'Connect timeout'});
+      return ErrorApi(message: 'Connect timeout', errorCode: -1);
     }
-
     if (error.type == DioExceptionType.receiveTimeout) {
-      return ErrorApi.fromJson({'message': 'Receive timeout'});
+      return ErrorApi(message: 'Receive timeout', errorCode: -1);
     }
 
-    if (error.type == DioExceptionType.badResponse) {
-      // Changed from response to badResponse
-      final err = ErrorApi.fromJson(json.decode(error.response.toString()));
-      if (err.message != '') {
-        // if (err.message?.toLowerCase() == 'unauthorized') {
-        //   Future.delayed(const Duration(milliseconds: 500), () {
-        //     navKey.currentState?.pushReplacementNamed(Routes.login);
-        //   });
-        // }
-
-        return ErrorApi.fromJson({'message': err.message});
+    if (error.response != null) {
+      errorCode = error.response?.statusCode;
+      try {
+        final Map<String, dynamic> errorData = json.decode(error.response.toString());
+        errorMessage = errorData['message'] ?? errorMessage;
+      } catch (_) {
+        errorMessage = error.response?.statusMessage ?? errorMessage;
       }
+    } else {
+      errorMessage = error.message ?? errorMessage;
     }
 
-    if (error.response == null) {
-      return ErrorApi.fromJson({'message': error.message.toString()});
-    }
-
-    return ErrorApi.fromJson(json.decode(error.response.toString()));
+    return ErrorApi(message: errorMessage, errorCode: errorCode);
   }
 }
 
 class RespApi {
-  int? code;
-  int? timestamp;
-  String? message;
-  dynamic data;
-  bool? success;
-
   RespApi({
-    this.code,
-    this.timestamp,
     this.message,
     this.data,
-    this.success,
   });
 
   RespApi.fromJson(Map<String, dynamic> json) {
-    code = json['code'];
-    timestamp = json['timestamp'];
     message = json['message'];
     data = json['data'];
-    success = json['success'];
   }
+
+  dynamic data;
+  String? message;
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['code'] = code;
-    data['timestamp'] = timestamp;
     data['message'] = message;
     data['data'] = this.data;
-    data['success'] = success;
     return data;
   }
 }
 
 class ErrorApi {
-  int? status;
-  String? error;
-  String? message;
-
-  ErrorApi({this.status, this.error, this.message});
+  ErrorApi({this.message, this.errorCode});
 
   ErrorApi.fromJson(Map<String, dynamic> json) {
-    status = json['status'];
-    error = json['error'];
     message = json['message'];
+    errorCode = json['errorCode'] ?? -1;
   }
+
+  int? errorCode;
+  String? message;
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['status'] = status;
-    data['error'] = error;
     data['message'] = message;
+    data['errorCode'] = errorCode;
     return data;
   }
 }

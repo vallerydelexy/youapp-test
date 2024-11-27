@@ -1,6 +1,5 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../utils/globals.dart' as globals;
 
 class Preferences {
 
