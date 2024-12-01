@@ -1,35 +1,77 @@
 class UserModel {
-  String? name;
-  String? birthday;
-  double? height;
-  double? weight;
-  List<String>? interest;
+  final String? image;
+  final String? email;
+  final String? username;
+  final String? name;
+  final String? birthday;
+  final int? height;
+  final int? weight;
+  final List<String>? interests;
 
   UserModel({
+    this.image,
+    this.email,
+    this.username,
     this.name,
     this.birthday,
     this.height,
     this.weight,
-    this.interest,
+    this.interests,
   });
 
-  UserModel.fromJson(Map<String, dynamic> json) {
-    name = json['name'];
-    birthday = json['birthday'];
-    height = json['height'];
-    weight = json['weight'];
-    interest = json['interest'].cast<String>();
+  // Factory constructor for parsing JSON
+  factory UserModel.fromJson(Map<String, dynamic> json) {
+    // Handle different response structures
+    final data = json['data'] ?? json;
+
+    return UserModel(
+      email: data['email'],
+      username: data['username'],
+      name: data['name'],
+      birthday: data['birthday'],
+      height: data['height'] is int 
+        ? data['height'] 
+        : int.tryParse(data['height']?.toString() ?? '0'),
+      weight: data['weight'] is int 
+        ? data['weight'] 
+        : int.tryParse(data['weight']?.toString() ?? '0'),
+      interests: data['interests'] != null
+        ? List<String>.from(data['interests'])
+        : [],
+    );
   }
 
+  // Method to convert to JSON for requests
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
+    return {
+      'name': name,
+      'birthday': birthday,
+      'height': height,
+      'weight': weight,
+      'interests': interests,
+    };
+  }
 
-    data['name'] = name;
-    data['birthday'] = birthday;
-    data['height'] = height;
-    data['weight'] = weight;
-    data['interest'] = interest;
-
-    return data;
+  // Create a copyWith method for easy updates
+  UserModel copyWith({
+    String? image,
+    String? email,
+    String? username,
+    String? name,
+    String? birthday,
+    int? height,
+    int? weight,
+    List<String>? interests,
+  }) {
+    return UserModel(
+      image: image ?? this.image,
+      email: email ?? this.email,
+      username: username ?? this.username,
+      name: name ?? this.name,
+      birthday: birthday ?? this.birthday,
+      height: height ?? this.height,
+      weight: weight ?? this.weight,
+      interests: interests ?? this.interests,
+    );
   }
 }

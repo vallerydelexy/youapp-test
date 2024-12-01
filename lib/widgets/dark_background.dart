@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:test/utils/colors.dart';
 
-class GradientBackground extends StatelessWidget {
+class DarkBackground extends StatelessWidget {
   final Widget child;
 
-  const GradientBackground({super.key, required this.child});
+  const DarkBackground({super.key, required this.child});
 
   @override
   Widget build(BuildContext context) {
@@ -14,16 +15,7 @@ class GradientBackground extends StatelessWidget {
       child: DecoratedBox(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(24),
-          gradient: const RadialGradient(
-            center: Alignment(1, -0.9),
-            radius: 2,
-            colors: [
-              Color(0xFF1F4247),
-              Color(0xFF0D1D23),
-              Color(0xFF09141A),
-            ],
-            stops: [0.0, 0.562, 1.0],
-          ),
+          color: ColorApp.dark,
         ),
         child: Padding(
           padding: const EdgeInsets.only(top: 24),

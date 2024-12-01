@@ -34,11 +34,16 @@ class WelcomeScreen extends StatelessWidget {
             child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
               SleekButton(
                   title: "Login with Email/Phone",
-                  onTap: () => Navigator.pushNamed(context, '/login'),
+                  onTap: () async {
+                    // Navigator.pushNamed(context, '/about');
+                    Navigator.pushNamed(context, '/login');
+                  },
                   icon: CupertinoIcons.device_phone_portrait),
               const SizedBox(height: 20),
               SleekButton(
-                  title: "Register a new account", onTap: () => Navigator.pushNamed(context, '/register'), icon: CupertinoIcons.add_circled),
+                  title: "Register a new account",
+                  onTap: () => Navigator.pushNamed(context, '/register'),
+                  icon: CupertinoIcons.add_circled),
               const SizedBox(height: 20),
             ]),
           ),

@@ -1,1 +1,1 @@
-enum LoginStatus { initial, loading, success, failure }
+enum ProcessStatus { initial, loading, success, failure }

@@ -25,7 +25,7 @@ class BaseApi {
 
   Future<String> authToken() async{
     final prefs = await SharedPreferences.getInstance();
-    return prefs.getString('accessToken') ?? '';
+    return prefs.getString('access_token') ?? '';
   }
 
   ErrorApi errorHandler(DioException error) {
@@ -59,20 +59,36 @@ class RespApi {
   RespApi({
     this.message,
     this.data,
+    this.token,
+    this.statusCode,
   });
 
-  RespApi.fromJson(Map<String, dynamic> json) {
+  RespApi.fromResponse(Response response) {
+    final json = response.data;
     message = json['message'];
     data = json['data'];
+    token = json['access_token'];
+    statusCode = response.statusCode;
+  }
+
+  RespApi.fromJson(Map<String, dynamic> json,  {int? status}) {
+    message = json['message'];
+    data = json['data'];
+    token = json['access_token'];
+    statusCode = status;
   }
 
   dynamic data;
   String? message;
+  String? token;
+  int? statusCode;
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['message'] = message;
     data['data'] = this.data;
+    data['access_token'] = token;
+    data['status_code'] = statusCode;
     return data;
   }
 }
