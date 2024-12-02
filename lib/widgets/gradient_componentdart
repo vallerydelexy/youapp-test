@@ -36,12 +36,12 @@ class GradientIcon extends StatelessWidget {
   final double? opacity;
 
   const GradientIcon({
-    Key? key,
+    super.key, 
     required this.icon,
     required this.colors,
     this.size = 24.0,
     this.opacity,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

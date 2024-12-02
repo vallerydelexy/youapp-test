@@ -8,8 +8,9 @@ class ColorApp {
   static const secondary = Color.fromRGBO(69, 153, 219, 1);
   static const dark = Color.fromRGBO(9, 20, 26, 1);
   static const emptyBackgroundDark = Color.fromRGBO(22, 35, 41, 1);
-  static const emptyTextAreaBackgroundDark =  Color.fromRGBO(14, 25, 31, 1);
- 
+  static const emptyBackgroundLight = Color.fromRGBO(217, 217, 217, 0.06);
+  static const emptyTextAreaBackgroundDark = Color.fromRGBO(14, 25, 31, 1);
+
   static const List<Color> goldenGradientColorList = [
     Color.fromRGBO(148, 120, 62, 1),
     Color.fromRGBO(243, 237, 166, 1),
@@ -18,5 +19,10 @@ class ColorApp {
     Color.fromRGBO(213, 190, 136, 1),
     Color.fromRGBO(248, 250, 229, 1),
     Color.fromRGBO(213, 190, 136, 1),
+  ];
+  static const List<Color> blueGradientColorList = [
+    Color.fromRGBO(171, 255, 253, 1),
+    Color.fromRGBO(69, 153, 219, 1),
+    Color.fromRGBO(170, 218, 255, 1),
   ];
 }

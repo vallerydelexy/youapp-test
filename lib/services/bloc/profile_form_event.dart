@@ -52,6 +52,15 @@ class UpdateWeight extends ProfileFormEvent {
   List<Object> get props => [weight];
 }
 
+class UpdateInterest extends ProfileFormEvent {
+  final List<String> interest;
+
+  const UpdateInterest(this.interest);
+
+  @override
+  List<Object> get props => [interest];
+}
+
 class UpdateImage extends ProfileFormEvent {
   final String image;
 

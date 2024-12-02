@@ -11,6 +11,7 @@ class ProfileFormState extends Equatable {
   final double weight;
   final FormStatus status;
   final String? errorMessage;
+  final List<String> interest;
 
   
 
@@ -22,6 +23,7 @@ class ProfileFormState extends Equatable {
     this.weight = 0.0,
     this.status = FormStatus.initial,
     this.errorMessage,
+    this.interest = const [],
   });
 
   ProfileFormState copyWith({
@@ -32,7 +34,8 @@ class ProfileFormState extends Equatable {
     double? weight,
     FormStatus? status,
     String? errorMessage,
-    String? image
+    String? image,
+    List<String>? interest
   }) {
     return ProfileFormState(
       displayName: displayName ?? this.displayName,
@@ -42,6 +45,7 @@ class ProfileFormState extends Equatable {
       weight: weight ?? this.weight,
       status: status ?? this.status,
       errorMessage: errorMessage ?? this.errorMessage,
+      interest: interest ?? this.interest
     );
   }
 
@@ -54,5 +58,6 @@ class ProfileFormState extends Equatable {
     weight, 
     status, 
     errorMessage,
+    interest
   ];
 }

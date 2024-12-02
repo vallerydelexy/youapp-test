@@ -42,6 +42,10 @@ class ProfileFormBloc extends Bloc<ProfileFormEvent, ProfileFormState> {
       emit(state.copyWith(status: event.status));
     });
 
+    on<UpdateInterest>((event, emit) {
+      emit(state.copyWith(interest: event.interest));
+    });
+
     on<SubmitForm>((event, emit) async {
    
       if (_validateForm()) {
@@ -54,6 +58,7 @@ class ProfileFormBloc extends Bloc<ProfileFormEvent, ProfileFormState> {
             'birthday': state.birthday!.toIso8601String(),
             'height': state.height,
             'weight': state.weight,
+            'interests': state.interest
           });
           result.fold(
             (error) => emit(state.copyWith(

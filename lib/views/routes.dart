@@ -37,7 +37,10 @@ class Routes {
       ],
       child: const ProfileScreen(),
     ),
-    interest: const InterestScreen(),
+    interest: BlocProvider(
+      create: (context) => ProfileFormBloc(UserApi()),
+      child: const InterestScreen(),
+    ),
   };
 
   static final Map<String, Widget Function(BuildContext)> routes =

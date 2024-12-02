@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:test/services/api/user_api.dart';
-import 'package:test/services/bloc/profile_form_bloc.dart';
 import 'package:test/services/bloc/user_bloc.dart';
 import 'package:test/utils/preferences.dart';
 import 'package:test/views/profile/about_section.dart';
