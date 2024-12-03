@@ -80,7 +80,9 @@ class UserBloc extends Bloc<UserEvent, UserProfileState> {
       final userProfile = UserModel.fromJson(response.data);
       final updatedUserProfile = userProfile.copyWith(
         image: userProfile.image ?? currentImage,
+        interests: userProfile.interests ?? state.userProfile?.interests,
       );
+      Preferences.setProfile(updatedUserProfile.toJson());
       emit(state.copyWith(status: ProcessStatus.success, userProfile: updatedUserProfile,));
     });
   }

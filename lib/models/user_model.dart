@@ -7,6 +7,7 @@ class UserModel {
   final int? height;
   final int? weight;
   final List<String>? interests;
+  final String? gender;
 
   UserModel({
     this.image,
@@ -17,6 +18,7 @@ class UserModel {
     this.height,
     this.weight,
     this.interests,
+    this.gender
   });
 
   // Factory constructor for parsing JSON
@@ -38,6 +40,7 @@ class UserModel {
       interests: data['interests'] != null
         ? List<String>.from(data['interests'])
         : [],
+      gender: data['gender'],
     );
   }
 
@@ -62,6 +65,7 @@ class UserModel {
     int? height,
     int? weight,
     List<String>? interests,
+    String? gender
   }) {
     return UserModel(
       image: image ?? this.image,
@@ -72,6 +76,7 @@ class UserModel {
       height: height ?? this.height,
       weight: weight ?? this.weight,
       interests: interests ?? this.interests,
+      gender: gender ?? this.gender
     );
   }
 }
