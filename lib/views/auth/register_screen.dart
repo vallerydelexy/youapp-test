@@ -38,8 +38,15 @@ class RegisterScreen extends StatelessWidget {
                 textAlign: TextAlign.left,
               ),
               const SizedBox(height: 20),
-              BlocBuilder<RegisterBloc, RegisterState>(
+              BlocConsumer<RegisterBloc, RegisterState>(
+                listener: (context, state) {
+                    if (state.isSuccess) {
+                      SnackBarApp.success(context, "Registration successful");
+                      Navigator.pushReplacementNamed(context, '/login');
+                    }
+                  },
                 builder: (context, state) {
+                  debugPrint('state: ${state.isFormValid}');
                   return FormBuilder(
                     child: Column(children: [
                       FormBuilderTextField(
@@ -141,7 +148,7 @@ class RegisterScreen extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 20),
-                      ButtonApp(onTap: () => {context.read<RegisterBloc>().add(SubmitRegisterEvent())}, title: "Register", disabled: state.isLoading),
+                      ButtonApp(onTap: () => {context.read<RegisterBloc>().add(SubmitRegisterEvent())}, title: "Register", disabled: state.isLoading || !state.isFormValid),
                       const SizedBox(height: 40),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -161,14 +168,7 @@ class RegisterScreen extends StatelessWidget {
                   );
                 },
               ),
-              BlocListener<RegisterBloc, RegisterState>(
-                  listener: (context, state) {
-                    if (state.isSuccess) {
-                      SnackBarApp.success(context, "Registration successful");
-                      Navigator.pushReplacementNamed(context, '/login');
-                    }
-                  },
-                  child: Container())
+              
             ]),
           ),
         ),

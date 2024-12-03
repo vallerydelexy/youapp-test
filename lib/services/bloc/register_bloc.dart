@@ -61,6 +61,10 @@ class RegisterState {
 
   bool get isFailure => status == ProcessStatus.failure;
 
+  bool get isInitial => status == ProcessStatus.initial;
+
+  bool get isFormValid => email.isNotEmpty && password.isNotEmpty && passwordConfirm.isNotEmpty && isPasswordMatch; 
+
   RegisterState copyWith({String? email, String? password, String? passwordConfirm, bool? isPasswordVisible, bool? isPasswordConfirmVisible, ProcessStatus? status, String? errorMessage}) =>
       RegisterState(
           email: email ?? this.email,
